@@ -1,5 +1,5 @@
 export default class Item {
-  itemId: string;
+  description: string;
   brand: string;
   price: number;
   stock: number;

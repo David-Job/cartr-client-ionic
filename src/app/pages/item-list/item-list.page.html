@@ -5,5 +5,14 @@
 </ion-header>
 
 <ion-content>
-  i-card
+  <ion-virtual-scroll [items]="items">
+    <ion-item *virtualItem="let item">
+      <ul>
+        <li>Description: {{ item.description }}</li>
+        <li>Brand: {{ item.brand }}</li>
+        <li>Price: {{ item.price }}</li>
+        <li>Stock: {{ item.stock }}</li>
+      </ul>
+    </ion-item>
+  </ion-virtual-scroll>
 </ion-content>

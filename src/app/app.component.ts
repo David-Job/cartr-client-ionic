@@ -20,6 +20,21 @@ export class AppComponent {
       title: 'List',
       url: '/list',
       icon: 'list'
+    },
+    {
+      title: 'Item List',
+      url: '/item-list',
+      icon: 'item-list'
+    },
+    {
+      title: 'User List',
+      url: '/user-list',
+      icon: 'user-list'
+    },
+    {
+      title: 'Cart List',
+      url: '/cart-list',
+      icon: 'cart-list'
     }
   ];
 

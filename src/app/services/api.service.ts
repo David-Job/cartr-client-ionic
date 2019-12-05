@@ -1,71 +1,77 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-
-const apiUrl = 'http://localhost8080/api';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  apiUrl = 'http://localhost:5000/api';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+
   constructor(private http: HttpClient) {}
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log to console instead
       return of(result as T);
     };
   }
 
-  getAll<T>(entityUrl:string): Observable<T[]> {
-    const url = `${apiUrl}/${entityUrl}s`;
-    console.log(url);
-    return this.http.get<T[]>(`${apiUrl}/${entityUrl}s`).pipe(
-      tap(item => console.log('fetched items')),
-      catchError(this.handleError('getAllItems', []))
+  getAll<T>(modelName: string): Observable<T[]> {
+    const url = `${this.apiUrl}/${modelName}s`;
+
+    return this.http.get<T[]>(url).pipe(
+      tap(() => console.log(`fetched ${modelName}s`)),
+      catchError(this.handleError([]))
     );
   }
 
-  get<T>(id: any, entityUrl:string): Observable<T> {
-    const url = `${apiUrl}/${entityUrl}/${id}`;
+  get<T>(id: any, modelName: string): Observable<T> {
+    const url = `${this.apiUrl}/${modelName}s/${id}`;
+
     return this.http.get<T>(url).pipe(
-      tap(_ => console.log(`fetched item id=${id}`)),
-      catchError(this.handleError<T>(`getItem id=${id}`))
+      tap(_ => console.log(`fetched ${modelName} id=${id}`)),
+      catchError(this.handleError<T>())
     );
   }
 
-  add<T>(entity: T, entityUrl:string): Observable<T> {
-    return this.http.post<T>(`${apiUrl}/${entityUrl}s`, entity, httpOptions).pipe(
-      tap((entity: T) => console.log(`added item`)),
-      catchError(this.handleError<T>('addItem'))
+  add<T>(entity: T, modelName: string): Observable<T> {
+    const url = `${this.apiUrl}/${modelName}s/add`;
+
+    return this.http.post<T>(url, entity, this.httpOptions).pipe(
+      tap(() => console.log(`added ${modelName}`)),
+      catchError(this.handleError<T>())
     );
   }
 
-  update<T>(id: any, entity: any, entityUrl:string): Observable<any> {
-    const url = `${apiUrl}/${entityUrl}/${id}`;
-    return this.http.put(url, entity, httpOptions).pipe(
-      tap(() => console.log(`updated item id=${id}`)),
-      catchError(this.handleError<any>('updateItem'))
+  update<T>(id: any, entity: T, modelName: string): Observable<any> {
+    const url = `${this.apiUrl}/${modelName}s/${id}/update`;
+
+    return this.http.put(url, entity, this.httpOptions).pipe(
+      tap(() => console.log(`updated ${modelName} id=${id}`)),
+      catchError(this.handleError<T>())
     );
   }
 
-  delete<T>(id: any, entityUrl:string): Observable<T> {
-    const url = `${apiUrl}/${entityUrl}/${id}`;
-    return this.http.delete<T>(url, httpOptions).pipe(
-      tap(() => console.log(`deleted item id=${id}`)),
-      catchError(this.handleError<T>(`delete ${entityUrl}`))
+  delete<T>(id: any, modelName: string): Observable<T> {
+    const url = `${this.apiUrl}/${modelName}s/${id}/delete`;
+
+    return this.http.delete<T>(url, this.httpOptions).pipe(
+      tap(() => console.log(`deleted ${modelName} id=${id}`)),
+      catchError(this.handleError<T>())
     );
   }
 
-  deleteAll<T>(entityUrl:string): Observable<T[]> {
-    return this.http.delete<T[]>(`${apiUrl}/${entityUrl}s`).pipe(
-      tap(() => console.log('deleted all ${entityUrl}s')),
-      catchError(this.handleError('delete all ${entityUrl}s', []))
+  deleteAll<T>(modelName: string): Observable<T[]> {
+    const url = `${this.apiUrl}/${modelName}s/delete`;
+
+    return this.http.delete<T[]>(url).pipe(
+      tap(() => console.log(`deleted all ${modelName}s`)),
+      catchError(this.handleError([]))
     );
   }
 }
