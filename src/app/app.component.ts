@@ -22,17 +22,17 @@ export class AppComponent {
       icon: 'list'
     },
     {
-      title: 'Item List',
+      title: 'Items',
       url: '/item-list',
       icon: 'item-list'
     },
     {
-      title: 'User List',
+      title: 'Users',
       url: '/user-list',
       icon: 'user-list'
     },
     {
-      title: 'Cart List',
+      title: 'Carts',
       url: '/cart-list',
       icon: 'cart-list'
     }

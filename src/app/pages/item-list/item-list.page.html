@@ -1,12 +1,20 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>item-list</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Items</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button href="item-add">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-virtual-scroll [items]="items">
-    <ion-item *virtualItem="let item">
+    <ion-item *virtualItem="let item" ((click)="getItemDetails()")>
       <ul>
         <li>Description: {{ item.description }}</li>
         <li>Brand: {{ item.brand }}</li>
@@ -16,3 +24,5 @@
     </ion-item>
   </ion-virtual-scroll>
 </ion-content>
+
+<div routerlink=""></div>

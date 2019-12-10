@@ -36,6 +36,10 @@ export class ItemListPage implements OnInit {
     this.itemApi.getAllItems().subscribe(itemObserver);
   }
 
+  onClick() {
+
+  }
+
   ngOnInit() {
     this.getItems();
   }
