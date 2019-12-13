@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Items</ion-title>
+    <ion-title>Items list</ion-title>
     <ion-buttons slot="primary">
       <ion-button href="item-add">
         <ion-icon name="add-circle-outline"></ion-icon>
@@ -14,7 +14,7 @@
 
 <ion-content>
   <ion-virtual-scroll [items]="items">
-    <ion-item *virtualItem="let item" ((click)="getItemDetails()")>
+    <ion-item *virtualItem="let item" href="item-detail/{{ item._id }}">
       <ul>
         <li>Description: {{ item.description }}</li>
         <li>Brand: {{ item.brand }}</li>
@@ -23,6 +23,5 @@
       </ul>
     </ion-item>
   </ion-virtual-scroll>
+  <ion-spinner name="bubbles" *ngIf="isLoadingResults"></ion-spinner>
 </ion-content>
-
-<div routerlink=""></div>

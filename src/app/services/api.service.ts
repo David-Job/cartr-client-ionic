@@ -14,13 +14,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  private handleError<T>(result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
-      return of(result as T);
-    };
-  }
-
   getAll<T>(modelName: string): Observable<T[]> {
     const url = `${this.apiUrl}/${modelName}s`;
 
@@ -73,5 +66,12 @@ export class ApiService {
       tap(() => console.log(`deleted all ${modelName}s`)),
       catchError(this.handleError([]))
     );
+  }
+
+  private handleError<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error); // Log to console instead
+      return of(result as T);
+    };
   }
 }

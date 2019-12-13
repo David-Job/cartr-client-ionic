@@ -11,6 +11,7 @@ import Item from 'src/app/models/item';
 })
 export class ItemListPage implements OnInit {
   items: Item[];
+  isLoadingResults = false;
 
   constructor(
     public itemApi: ItemService,
@@ -20,6 +21,7 @@ export class ItemListPage implements OnInit {
   ) {}
 
   async getItems() {
+    this.isLoadingResults = true;
     const loading = await this.loadingController.create({
       message: 'Loading...',
     });
@@ -31,14 +33,15 @@ export class ItemListPage implements OnInit {
         console.log(this.items);
       },
       error: (err: any) => console.log(err),
-      complete: () => loading.dismiss(),
+      complete: () => {
+        loading.dismiss();
+        this.isLoadingResults = false;
+      },
     };
     this.itemApi.getAllItems().subscribe(itemObserver);
   }
 
-  onClick() {
-
-  }
+  onClick() {}
 
   ngOnInit() {
     this.getItems();

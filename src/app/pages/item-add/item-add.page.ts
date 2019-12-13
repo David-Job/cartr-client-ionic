@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ItemService } from 'src/app/services/item.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-item-add',
@@ -16,27 +17,27 @@ export class ItemAddPage implements OnInit {
   stock: number = null;
   isLoadingResults = false;
 
-  constructor(private router: Router, private itemApi: ItemService, private formBuilder: FormBuilder) {}
+  constructor(
+    private router: Router,
+    private itemApi: ItemService,
+    private formBuilder: FormBuilder,
+    private location: Location
+  ) {}
 
   onFormSubmit() {
     console.log(this.itemForm.value);
     this.isLoadingResults = true;
 
-    const observer = {
+    this.itemApi.addItem(this.itemForm.value).subscribe({
       next: (res: any) => {
         console.log(res);
         const id = res._id;
-        this.isLoadingResults=false;
+        this.location.back();
         this.router.navigate(['/item-detail', id]);
       },
-      error: (err: any) => {
-        console.log(err);
-        this.isLoadingResults=false;
-      },
+      error: err => console.error(err),
       complete: () => (this.isLoadingResults = false),
-    };
-    
-    this.itemApi.addItem(this.itemForm.value).subscribe(observer);
+    });
   }
 
   ngOnInit() {

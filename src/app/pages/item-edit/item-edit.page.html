@@ -1,14 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="item-list"></ion-back-button>
+      <ion-back-button defaultHref="/item-detail/{{ itemId }}"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="onFormSubmit()">
         <ion-icon name="checkmark"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Add Item</ion-title>
+    <ion-title>Edit Item</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,39 +17,45 @@
     <form [formGroup]="itemForm" (ngSubmit)="onFormSubmit()">
 
       <ion-card>
-        <ion-input placeholder="Item description" formControlName="description" minlength="1"></ion-input>
+        <ion-input placeholder="Item description" formControlName="description" minlength="1">
+        </ion-input>
         <ion-item *ngIf="itemForm.get('description').touched && itemForm.get('description').invalid">
           <ion-text color="danger" class="form-error">
-            Please add a description
+            Please edit a description
           </ion-text>
         </ion-item>
       </ion-card>
 
       <ion-card>
-        <ion-input type="text" placeholder="Item brand" formControlName="brand"></ion-input>
+        <ion-input type="text" placeholder="Item brand" formControlName="brand" minlength="1"></ion-input>
         <ion-item *ngIf="itemForm.get('brand').touched && itemForm.get('brand').invalid">
           <ion-text color="danger" class="form-error">
-            Please add a brand
+            Please edit a brand
           </ion-text>
         </ion-item>
       </ion-card>
 
       <ion-card>
-        <ion-input type="number" placeholder="Item price" formControlName="price" min="0"></ion-input>
+        <ion-input type="number" placeholder="Item price" formControlName="price" min="0">
+        </ion-input>
         <ion-item *ngIf="itemForm.get('price').touched && itemForm.get('price').invalid">
           <ion-text color="danger" class="form-error">
-            Please add a price
+            Please edit a price
           </ion-text>
         </ion-item>
       </ion-card>
 
       <ion-card>
         <ion-input type="number" placeholder="Initial stock" formControlName="stock" min="0"></ion-input>
-        <ion-item *ngIf="itemForm.get('stock').touched && itemForm.get('stock').invalid">
+        <ion-item *ngIf=" itemForm.get('stock').touched && itemForm.get('stock').invalid">
           <ion-text color="danger" class="form-error">
             Please enter a number
           </ion-text>
         </ion-item>
+      </ion-card>
+
+      <ion-card button (click)="onFormSubmit()">
+        Save
       </ion-card>
 
       <ion-spinner name="bubbles" *ngIf="isLoadingResults"></ion-spinner>

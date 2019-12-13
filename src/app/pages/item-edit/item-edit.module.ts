@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ItemDetailPageRoutingModule } from './item-detail-routing.module';
+import { ItemEditPageRoutingModule } from './item-edit-routing.module';
 
-import { ItemDetailPage } from './item-detail.page';
+import { ItemEditPage } from './item-edit.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { ItemDetailPage } from './item-detail.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ItemDetailPageRoutingModule
+    ItemEditPageRoutingModule
   ],
-  declarations: [ItemDetailPage]
+  declarations: [ItemEditPage]
 })
-export class ItemDetailPageModule {}
+export class ItemEditPageModule {}

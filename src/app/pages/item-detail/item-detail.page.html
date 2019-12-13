@@ -1,9 +1,132 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>item-detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/item-list"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <!--
+      <ion-button href="item-edit/{{ itemId }}">
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+      -->
+      <ion-button (click)="toggleEditingMode()" *ngIf="!editingMode">
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+      <ion-button (click)="confirmDeletion()" *ngIf="!editingMode">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+      <ion-button (click)="confirmSubmit()" *ngIf="editingMode">
+        <ion-icon name="checkmark"></ion-icon>
+      </ion-button>
+      <ion-button (click)="toggleEditingMode()" *ngIf="editingMode">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Item Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!--
+  <ion-text color="primary" *ngIf="item">
+
+    <h3>Description</h3>
+    <p class="data" *ngIf="!editingMode">{{ item.description }}</p>
+
+    <h3>Brand</h3>
+    <p class="data" *ngIf="!editingMode">{{ item.brand }}</p>
+
+    <h3>Price</h3>
+    <p class="data" *ngIf="!editingMode">{{ item.price }}</p>
+
+    <h3>Stock</h3>
+    <p class="data" *ngIf="!editingMode">{{ item.stock }}</p>
+  </ion-text>
+
+ -->
+  <form [formGroup]="itemForm" (ngSubmit)="onFormSubmit()" *ngIf="item">
+
+    <ion-text color="primary">
+      <p class="label">Description:</p>
+    </ion-text>
+
+    <ion-text color="secondary" *ngIf="!(isLoadingResults || editingMode)">
+      <p class="value">{{ item.description }}</p>
+    </ion-text>
+
+    <ion-card>
+      <ion-input placeholder="Item description" formControlName="description" minlength="1" *ngIf="editingMode">
+      </ion-input>
+      <ion-item *ngIf="itemForm.get('description').touched && itemForm.get('description').invalid">
+        <ion-text color="danger" class="form-error">
+          Please add a description
+        </ion-text>
+      </ion-item>
+    </ion-card>
+
+    <ion-text color="primary">
+      <p class="label">Brand:</p>
+    </ion-text>
+
+    <ion-text color="secondary" *ngIf="!(isLoadingResults || editingMode)">
+      <p class="value">{{ item.brand }}</p>
+    </ion-text>
+
+    <ion-card>
+      <ion-input type="text" placeholder="Item brand" formControlName="brand" minlength="1" *ngIf="editingMode">
+      </ion-input>
+      <ion-item *ngIf="itemForm.get('brand').touched && itemForm.get('brand').invalid">
+        <ion-text color="danger" class="form-error">
+          Please edit a brand
+        </ion-text>
+      </ion-item>
+    </ion-card>
+
+
+    <ion-text color="primary">
+      <p class="label">Price:</p>
+    </ion-text>
+
+    <ion-text color="secondary" *ngIf="!(isLoadingResults || editingMode)">
+      <p class="value">{{ item.price }}</p>
+    </ion-text>
+
+    <ion-card>
+      <ion-input type="number" placeholder="Item price" formControlName="price" min="0" *ngIf="editingMode">
+      </ion-input>
+      <ion-item *ngIf="itemForm.get('price').touched && itemForm.get('price').invalid">
+        <ion-text color="danger" class="form-error">
+          Please edit a price
+        </ion-text>
+      </ion-item>
+    </ion-card>
+
+    <ion-text color="primary">
+      <p class="label">Stock:</p>
+    </ion-text>
+
+    <ion-text color="secondary" *ngIf="!(isLoadingResults || editingMode)">
+      <p class="value">{{ item.stock }}</p>
+    </ion-text>
+
+    <ion-card>
+      <ion-input type="number" placeholder="Stock" formControlName="stock" min="0" *ngIf="editingMode">
+      </ion-input>
+      <ion-item *ngIf=" itemForm.get('stock').touched && itemForm.get('stock').invalid">
+        <ion-text color="danger" class="form-error">
+          Please enter a number
+        </ion-text>
+      </ion-item>
+    </ion-card>
+
+    <!--
+    <ion-card button (click)="onFormSubmit()">
+      Save
+    </ion-card>
+     -->
+
+    <ion-spinner name="bubbles" *ngIf="isLoadingResults"></ion-spinner>
+
+  </form>
 
 </ion-content>
